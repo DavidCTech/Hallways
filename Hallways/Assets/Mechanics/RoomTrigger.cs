@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RoomTrigger : MonoBehaviour
+public class RoomTrigger : MonoBehaviour, IInteractable
 {    
     public HallwayController hallwayController; // Reference to the RoomSpawner script
+    private bool hasTriggered = false; // Flag to prevent multiple triggers
+
 
     // Start is called before the first frame update
     void Start()
@@ -25,12 +27,14 @@ public class RoomTrigger : MonoBehaviour
 
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void Interact()
     {
-        if (other.CompareTag("Player")) // Check if the colliding object is the player
+        if (!hasTriggered) // Check if the colliding object is the player and if it hasn't already triggered
         {
-            hallwayController.SpawnRoom(); // Call the SpawnRoom method in the RoomSpawner script
-            Destroy(gameObject);
+            hallwayController.SpawnRoom(); // Call the SpawnRoom method in the HallwayController script
+            hasTriggered = true; // Set the flag to true to prevent further triggers
+            Destroy(gameObject); // Destroy the trigger object
         }
     }
+
 }

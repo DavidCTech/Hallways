@@ -4,26 +4,28 @@ using UnityEngine;
 
 public class HallwayController : MonoBehaviour
 {
-    public Transform hallwaySpawnPoint; // Position where new hallway segments spawn
     public GameObject[] regularRooms; // Array of regular room prefabs
     public GameObject[] specialRooms; // Array of special room prefabs in the order they should appear
-    public GameObject lobbyRoomPrefab; // Prefab for the beginning room
-
-    public int specialRoomInterval = 5; // Number of regular rooms before a special room
+    public Transform hallwaySpawnPoint; // Position where new hallway segments spawn
 
     [SerializeField]
     private int roomCounter = 0; // Counts total rooms passed
+    [SerializeField]
     private int specialRoomIndex = 0; // Tracks the current special room in order
+    public int specialRoomInterval = 5; // Number of regular rooms before a special room
 
     [SerializeField]
     private List<GameObject> spawnedRooms = new List<GameObject>(); // List to track spawned rooms
+    
+    [SerializeField] private Transform playerTransform;
+    [SerializeField] private CharacterController playerController; // Reference to the player's CharacterController
 
 
 
     // Start is called before the first frame update
     void Start()
     {
-        SpawnRoom();
+        //SpawnRoom();
     }
 
     // Update is called once per frame
@@ -56,32 +58,42 @@ public class HallwayController : MonoBehaviour
             newRoom = Instantiate(regularRooms[randomIndex], hallwaySpawnPoint.position, Quaternion.identity);
         }
 
-        // Move the spawn point forward for the next room spawn
-        hallwaySpawnPoint.position += Vector3.forward * 10f; // Adjust length to match room size
-
         // Add the new room to the start of the list
         spawnedRooms.Insert(0, newRoom);
 
-        // If the list has 3 or more rooms, replace the third room with the lobby room
-        if (spawnedRooms.Count >= 3)
-        {
-            GameObject thirdRoom = spawnedRooms[2]; // Get the third room in the list
+        RoomShift();
 
-            // Replace the third room with the lobby room
-            Vector3 thirdRoomPosition = thirdRoom.transform.position;
-            Destroy(thirdRoom); // Destroy the old room
-            GameObject lobbyRoom = Instantiate(lobbyRoomPrefab, thirdRoomPosition, Quaternion.identity);
-
-            // Update the third room in the list to point to the new lobby room
-            spawnedRooms[2] = lobbyRoom;
-        }
-
-        if (spawnedRooms.Count >= 4)
-        {
-            GameObject fourthRoom = spawnedRooms[3]; // Get the fourth room in the list
-            Destroy(fourthRoom); // Destroy the old room
-            spawnedRooms.RemoveAt(3); // Remove the reference from the list
-        }
     }
 
+    public void RoomShift()
+    {
+        // Move the hallway spawn point forward by 10 units if there are fewer than 3 rooms
+        if (spawnedRooms.Count < 3)
+        {
+            hallwaySpawnPoint.position += Vector3.forward * 10f;
+        }
+
+        // Only shift when there are exactly 3 rooms in the list
+        if (spawnedRooms.Count == 3)
+        {
+
+            // Move the last two rooms back by 10 units relative to their current positions
+            spawnedRooms[0].transform.position -= new Vector3(0, 0, 10);
+            spawnedRooms[1].transform.position -= new Vector3(0, 0, 10);
+
+            playerController.enabled = false;
+            playerTransform.position -= new Vector3(0, 0, 10);
+            playerController.enabled = true;
+
+
+            // Destroy the oldest room (third in the list) and remove it
+            GameObject oldestRoom = spawnedRooms[2];
+            Destroy(oldestRoom);
+            spawnedRooms.RemoveAt(2);
+
+            // Move hallway spawn point back by 10 units for alignment
+            //hallwaySpawnPoint.position += Vector3.back * 10f;
+        }
+
+    }
 }
