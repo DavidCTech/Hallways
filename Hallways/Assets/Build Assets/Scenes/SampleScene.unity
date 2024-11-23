@@ -438,19 +438,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 705322d3b352bde4c91cdff2feecfb8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  regularRooms:
-  - {fileID: 3868325787028550719, guid: 0fab08e0e0a090b408ed6ddb02ae37d4, type: 3}
-  - {fileID: 3868325787028550719, guid: 8b25ce776e1855a43acd8ba006623d19, type: 3}
-  - {fileID: 3868325787028550719, guid: 0fab08e0e0a090b408ed6ddb02ae37d4, type: 3}
-  specialRooms:
-  - {fileID: 3868325787028550719, guid: 68197673a3e80434b8f7abd0f2f68c7e, type: 3}
   hallwaySpawnPoint: {fileID: 1700356697}
+  playerTransform: {fileID: 937451010784418588}
+  playerController: {fileID: 453084649834578348}
   roomCounter: 0
   specialRoomIndex: 0
   specialRoomInterval: 4
+  specialRooms:
+  - {fileID: 3868325787028550719, guid: 68197673a3e80434b8f7abd0f2f68c7e, type: 3}
+  regularRoomSetIndex: 0
+  regularRoomSets:
+  - rooms:
+    - {fileID: 3868325787028550719, guid: 0fab08e0e0a090b408ed6ddb02ae37d4, type: 3}
+    - {fileID: 3868325787028550719, guid: 0fab08e0e0a090b408ed6ddb02ae37d4, type: 3}
+    - {fileID: 3868325787028550719, guid: 0fab08e0e0a090b408ed6ddb02ae37d4, type: 3}
+  - rooms:
+    - {fileID: 3868325787028550719, guid: 8b25ce776e1855a43acd8ba006623d19, type: 3}
+    - {fileID: 3868325787028550719, guid: 8b25ce776e1855a43acd8ba006623d19, type: 3}
+    - {fileID: 3868325787028550719, guid: 8b25ce776e1855a43acd8ba006623d19, type: 3}
+  - rooms: []
+  - rooms: []
+  - rooms: []
+  currentRoomPool: []
   spawnedRooms: []
-  playerTransform: {fileID: 937451010784418588}
-  playerController: {fileID: 453084649834578348}
 --- !u!1 &1700356696
 GameObject:
   m_ObjectHideFlags: 0
@@ -742,7 +752,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &937451010784418588
 Transform:
   m_ObjectHideFlags: 0
