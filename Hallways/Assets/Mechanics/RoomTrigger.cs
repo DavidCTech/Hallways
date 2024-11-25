@@ -33,7 +33,7 @@ public class RoomTrigger : MonoBehaviour, IInteractable
         {
             hallwayController.SpawnRoom(); // Call the SpawnRoom method in the HallwayController script
             hasTriggered = true; // Set the flag to true to prevent further triggers
-            Destroy(gameObject); // Destroy the trigger object
+            //Destroy(gameObject); // Destroy the trigger object
         }
     }
 

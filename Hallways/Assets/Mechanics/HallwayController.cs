@@ -10,6 +10,7 @@ public class RoomSet
 public class HallwayController : MonoBehaviour
 {
     public Transform hallwaySpawnPoint; // Position where new hallway segments spawn
+    public float hallDistance;
     [SerializeField] private Transform playerTransform;
     [SerializeField] private CharacterController playerController; // Reference to the player's CharacterController
 
@@ -99,7 +100,7 @@ public class HallwayController : MonoBehaviour
         // Move the hallway spawn point forward by 10 units if there are fewer than 3 rooms
         if (spawnedRooms.Count < 3)
         {
-            hallwaySpawnPoint.position += Vector3.forward * 10f;
+            hallwaySpawnPoint.position += Vector3.forward * hallDistance;
         }
 
         // Only shift when there are exactly 3 rooms in the list
@@ -107,11 +108,11 @@ public class HallwayController : MonoBehaviour
         {
 
             // Move the last two rooms back by 10 units relative to their current positions
-            spawnedRooms[0].transform.position -= new Vector3(0, 0, 10);
-            spawnedRooms[1].transform.position -= new Vector3(0, 0, 10);
+            spawnedRooms[0].transform.position -= new Vector3(0, 0, hallDistance);
+            spawnedRooms[1].transform.position -= new Vector3(0, 0, hallDistance);
 
             playerController.enabled = false;
-            playerTransform.position -= new Vector3(0, 0, 10);
+            playerTransform.position -= new Vector3(0, 0, hallDistance);
             playerController.enabled = true;
 
 
